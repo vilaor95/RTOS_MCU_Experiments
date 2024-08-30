@@ -1,0 +1,8 @@
+# Compilation artifacts
+**.o
+**.elf
+**.bin
+**.map
+
+# CMSIS libraries
+cmsis*
