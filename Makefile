@@ -12,6 +12,9 @@ OBJCOPY = arm-none-eabi-objcopy
 C_OBJECTS = main.o
 S_OBJECTS = startup.o
 
+# Specs
+SPECS = nosys.specs
+
 # Debug flags
 DBGFLAGS = 
 
@@ -26,22 +29,23 @@ CCFLAGS = -mcpu=cortex-m4 \
 	  $(DBGFLAGS) \
 	  -std=gnu11 \
 	  -D$(TARGET) \
-	  --specs=nano.specs \
+	  --specs=$(SPECS) \
 	  $(FPUFLAGS) \
 	  -mthumb \
 	  $(INCFLAGS) \
 	  -ffunction-sections \
 	  -fdata-sections
+	  #-nostdlib
 
 ASFLAGS = -mcpu=cortex-m4 \
 	  $(DBGFLAGS) \
-	  --specs=nano.specs \
+	  --specs=$(SPECS) \
 	  $(FPUFLGAS) \
 	  -mthumb
 
 LDFLAGS = -mcpu=cortex-m4 \
 	  -T$(LINKER_FILE) \
-	  --specs=nosys.specs \
+	  --specs=$(SPECS) \
 	  -Wl,-Map=out.map \
 	  -Wl,--gc-sections \
 	  -static $(FPUFLAGS) \
