@@ -3,6 +3,7 @@ ELF = $(OUT).elf
 BIN = $(OUT).bin
 
 STMPROG = st-flash
+STMUTIL = st-util
 
 LINKER_FILE = linker.ld
 
@@ -34,25 +35,30 @@ CCFLAGS = -mcpu=cortex-m4 \
 	  -mthumb \
 	  $(INCFLAGS) \
 	  -ffunction-sections \
-	  -fdata-sections
-	  #-nostdlib
+	  -fdata-sections \
+	  -nostdlib \
+	  -g
 
 ASFLAGS = -mcpu=cortex-m4 \
 	  $(DBGFLAGS) \
 	  --specs=$(SPECS) \
 	  $(FPUFLGAS) \
-	  -mthumb
+	  -mthumb \
+          -nostdlib \
+	  -g
 
 LDFLAGS = -mcpu=cortex-m4 \
 	  -T$(LINKER_FILE) \
 	  --specs=$(SPECS) \
 	  -Wl,-Map=out.map \
 	  -Wl,--gc-sections \
+	  -Wl,--print-memory-usage \
 	  -static $(FPUFLAGS) \
 	  -mthumb \
 	  -Wl,--start-group \
 	  -lc -lm \
-	  -Wl,--end-group
+	  -Wl,--end-group \
+	  -nostdlib
 
 all: cmsis cmsis_f4 $(ELF)
 
@@ -70,6 +76,12 @@ $(BIN): $(ELF)
 .PHONY: flash
 flash: $(BIN)
 	$(STMPROG) write $< 0x8000000
+
+.PHONY: debug
+debug: flash
+	$(STMUTIL) &
+	arm-none-eabi-gdb $(ELF)
+	killall $(STMUTIL)
 
 cmsis:
 	git clone --depth 1 -b 5.9.0 https://github.com/ARM-software/CMSIS_5 $@
