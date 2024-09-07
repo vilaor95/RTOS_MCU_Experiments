@@ -1,7 +1,9 @@
 #include <stdint.h>
 
-volatile unsigned int main_canary;
-volatile unsigned int systeminit_canary = 0xcafebabe;
+unsigned int main_canary;
+
+unsigned int global_canary = 0xcafebabe;
+static unsigned int local_canary = 0xa5a5a5a5;
 
 void main(void) {
 	main_canary = 0xdeafbeef;

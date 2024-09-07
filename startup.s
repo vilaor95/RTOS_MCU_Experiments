@@ -132,6 +132,48 @@ __Vectors_End:
                 .globl   Reset_Handler
 Reset_Handler:
 		ldr      sp, =__StackTop      /* set stack pointer */
+
+		ldr	 r4, =__copy_table_start__
+		ldr	 r5, =__copy_table_end__
+.L_loop0:
+		cmp      r4, r5
+		bge      .L_loop0_done
+		ldr	 r1, [r4]	/* source address */
+		ldr	 r2, [r4, #4]   /* destination address */
+		ldr	 r3, [r4, #8]   /* number of words */
+		lsls	 r3, r3, #2     /* *4 -> number of bytes */
+
+.L_loop0_0:
+		subs	 r3, #4
+		ittt	 ge
+		ldrge    r0, [r1, r3]
+		strge	 r0, [r2, r3]
+		bge	 .L_loop0_0
+
+		adds	 r4, #12
+		b	 .L_loop0
+.L_loop0_done:
+
+		ldr	 r3, =__zero_table_start__
+		ldr	 r4, =__zero_table_end__
+.L_loop2:
+		cmp	 r3, r4
+		bge	 .L_loop2_done
+		ldr	 r1, [r3]	/* destination address */
+		ldr	 r2, [r3, #4]    /* word count */
+		lsls     r2, r2, #2	/* *2 -> byte count */
+		movs	 r0, 0
+
+.L_loop2_0:
+		subs	 r2, #4
+		itt	 ge
+		strge    r0, [r1, r2]
+		bge	 .L_loop2_0
+
+		adds	 r3, #8
+		b	 .L_loop2
+.L_loop2_done:
+
                 bl       SystemInit
 
                 bl       main

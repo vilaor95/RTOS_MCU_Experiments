@@ -37,7 +37,7 @@ CCFLAGS = -mcpu=cortex-m4 \
 	  -ffunction-sections \
 	  -fdata-sections \
 	  -nostdlib \
-	  -g
+	  -g -O0
 
 ASFLAGS = -mcpu=cortex-m4 \
 	  $(DBGFLAGS) \
@@ -47,11 +47,11 @@ ASFLAGS = -mcpu=cortex-m4 \
           -nostdlib \
 	  -g
 
+# Removed -Wl,--gc-sections for testing purposes
 LDFLAGS = -mcpu=cortex-m4 \
 	  -T$(LINKER_FILE) \
 	  --specs=$(SPECS) \
 	  -Wl,-Map=out.map \
-	  -Wl,--gc-sections \
 	  -Wl,--print-memory-usage \
 	  -static $(FPUFLAGS) \
 	  -mthumb \
@@ -80,7 +80,7 @@ flash: $(BIN)
 .PHONY: debug
 debug: flash
 	$(STMUTIL) &
-	arm-none-eabi-gdb $(ELF)
+	arm-none-eabi-gdb $(ELF) -ex 'target extended-remote localhost:4242'
 	killall $(STMUTIL)
 
 cmsis:
