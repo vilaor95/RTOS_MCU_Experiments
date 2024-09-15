@@ -1,6 +1,9 @@
 TYPE=debug
 
-VPATH = src:headers
+SRCDIR := src
+INCDIR := headers
+
+VPATH = $(SRCDIR):$(INCDIR)
 
 OUT = out
 ELF = $(OUT).elf
@@ -12,11 +15,10 @@ LINKER_FILE = linker.ld
 CC = arm-none-eabi-gcc
 OBJCOPY = arm-none-eabi-objcopy
 
-C_SOURCES := main.c
-S_SOURCES := startup.s
+# Define C_SOURCES and S_SOURCES
+include sources.mk
 
 OBJDIR := obj
-
 OBJECTS := $(patsubst %.c,%.o,$(C_SOURCES))
 OBJECTS += $(patsubst %.s,%.o,$(S_SOURCES))
 OBJS := $(addprefix $(OBJDIR)/, $(OBJECTS))
@@ -33,10 +35,10 @@ SPECS = nosys.specs
 DBGFLAGS = -g -O0
 
 # Target settings
-TARGET=STM32F446xx
-FPUFLAGS = -mfpu=fpv4-sp-d16 -mfloat-abi=hard
+TARGET := STM32F446xx
+FPUFLAGS := -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 
-INCFLAGS = -Icmsis_f4/Include -Iheaders
+INCFLAGS := -Icmsis_f4/Include -I$(INCDIR)
 
 # Build flags
 CCFLAGS := -mcpu=cortex-m4 \
