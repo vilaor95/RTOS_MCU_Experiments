@@ -3,6 +3,7 @@
 **.elf
 **.bin
 **.map
+obj/*
 
 # CMSIS libraries
 cmsis*
