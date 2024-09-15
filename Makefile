@@ -1,5 +1,7 @@
 TYPE=debug
 
+VPATH = src:headers
+
 OUT = out
 ELF = $(OUT).elf
 BIN = $(OUT).bin
@@ -10,10 +12,8 @@ LINKER_FILE = linker.ld
 CC = arm-none-eabi-gcc
 OBJCOPY = arm-none-eabi-objcopy
 
-C_SOURCES := $(wildcard *.c)
-S_SOURCES := $(wildcard *.s)
-
-H_FILES := $(wildcard *.h)
+C_SOURCES := main.c
+S_SOURCES := startup.s
 
 OBJDIR := obj
 
@@ -36,7 +36,7 @@ DBGFLAGS = -g -O0
 TARGET=STM32F446xx
 FPUFLAGS = -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 
-INCFLAGS = -Icmsis_f4/Include 
+INCFLAGS = -Icmsis_f4/Include -Iheaders
 
 # Build flags
 CCFLAGS := -mcpu=cortex-m4 \
