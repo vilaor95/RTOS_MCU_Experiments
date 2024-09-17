@@ -9,3 +9,6 @@ obj/*
 
 # CMSIS libraries
 cmsis*
+
+# FreeRTOS
+FreeRTOS-Kernel

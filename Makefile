@@ -38,7 +38,9 @@ DBGFLAGS = -g -O0
 TARGET := STM32F446xx
 FPUFLAGS := -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 
-INCFLAGS := -Icmsis_f4/Include -I$(INCDIR)
+INCFLAGS := -I$(INCDIR) \
+	    -Icmsis_f4/Include \
+	    -IFreeRTOS-Kernel/include
 
 # Build flags
 CCFLAGS := -mcpu=cortex-m4 \
@@ -52,6 +54,7 @@ CCFLAGS := -mcpu=cortex-m4 \
 	  -ffunction-sections \
 	  -fdata-sections \
 	  -nostdlib \
+	  -Wall -Wextra -Werror -pedantic
 
 ASFLAGS := -mcpu=cortex-m4 \
 	  $(DBGFLAGS) \
@@ -78,7 +81,7 @@ ifeq ($(TYPE),debug)
 	ASFLAGS += $(DBGFLAGS)
 endif
 
-all: $(ELF) | cmsis cmsis_f4
+all: $(ELF) | cmsis cmsis_f4 FreeRTOS-Kernel
 
 $(OBJDIR)/%.o: %.c $(DEPDIR)/%.d | $(DEPDIR)
 	$(CC) $(DEPFLAGS) $(CCFLAGS) -c -o $@ $<
@@ -86,9 +89,7 @@ $(OBJDIR)/%.o: %.c $(DEPDIR)/%.d | $(DEPDIR)
 $(OBJDIR)/%.o: %.s
 	$(CC) $(ASFLAGS) -c -o $@ $<
 
-$(OBJDIR):
-	mkdir $@
-
+$(OBJDIR): ; @mkdir -p $@
 $(DEPDIR): ; @mkdir -p $@
 
 $(DEPS):
@@ -108,6 +109,16 @@ cmsis:
 cmsis_f4:
 	git clone --depth 1 https://github.com/STMicroelectronics/cmsis_device_f4 $@
 
+FreeRTOS-Kernel:
+	git clone --depth 1 https://github.com/FreeRTOS/FreeRTOS-Kernel.git $@
+
 .PHONY: clean
 clean:
 	- rm -rf $(ELF) $(BIN) $(MAP) $(DEPDIR) $(OBJDIR) 
+
+.PHONY: tags
+tags:
+	find $(SRCDIR) $(INCDIR) \
+		cmsis_f4/Include FreeRTOS-Kernel/include \
+		-name "*.c" -o -name "*.h" > .cscope.files
+	cscope -q -R -b -i .cscope.files

@@ -1,7 +1,7 @@
-#include "main.h"
-
-void main(void) {
+int main(void)
+{
 }
 
-void SystemInit(void) {
+void SystemInit(void)
+{
 }
