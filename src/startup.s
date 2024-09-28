@@ -18,11 +18,11 @@ __Vectors:
                 .word    0                                  /*     Reserved */
                 .word    0                                  /*     Reserved */
                 .word    0                                  /*     Reserved */
-                .word    SVC_Handler                        /*  -5 SVC Handler */
+                .word    vPortSVCHandler                    /*  -5 SVC Handler */
                 .word    DebugMon_Handler                   /*  -4 Debug Monitor Handler */
                 .word    0                                  /*     Reserved */
-                .word    PendSV_Handler                     /*  -2 PendSV Handler */
-                .word    SysTick_Handler                    /*  -1 SysTick Handler */
+                .word    xPortPendSVHandler                 /*  -2 PendSV Handler */
+                .word    xPortSysTickHandler                /*  -1 SysTick Handler */
 
                 /* Interrupts */
                 .long    Interrupt0_Handler                 /*   0 Interrupt 0 */

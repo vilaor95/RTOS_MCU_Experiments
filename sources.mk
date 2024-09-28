@@ -1,5 +1,6 @@
 C_SOURCES = \
 main.c \
+application.c \
 memcpy.c \
 memset.c \
 tasks.c \
