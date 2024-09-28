@@ -119,6 +119,13 @@ clean:
 .PHONY: tags
 tags:
 	find $(SRCDIR) $(INCDIR) \
-		cmsis_f4/Include FreeRTOS-Kernel/include \
+		FreeRTOS-Kernel/include \
 		-name "*.c" -o -name "*.h" > .cscope.files
+	find cmsis_f4/Include/stm32f4xx.h cmsis_f4/Include/stm32f446xx.h >> .cscope.files
 	cscope -q -R -b -i .cscope.files
+
+	ctags -f .tags \
+		--exclude= cmsis_f4/Include\
+		--exclude-exception= cmsis_f4/Include/stm32f4xx.h \
+		--exclude-exception= cmsis_f4/Include/stm32f446xx.h \
+		src/* headers/* FreeRTOS-Kernel/include/*
