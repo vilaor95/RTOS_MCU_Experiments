@@ -87,7 +87,7 @@
  * configUSE_TIME_SLICING to 0 to prevent the scheduler switching between Ready
  * state tasks just because there was a tick interrupt.  See
  * https://freertos.org/single-core-amp-smp-rtos-scheduling.html. */
-#define configUSE_TIME_SLICING                     1
+#define configUSE_TIME_SLICING                     0
 
 /* Set configUSE_PORT_OPTIMISED_TASK_SELECTION to 1 to select the next task to
  * run using an algorithm optimised to the instruction set of the target
@@ -335,7 +335,7 @@
  * functionality in the build.  Set to 0 to exclude the hook functionality from
  * the build.  The application writer is responsible for providing the hook
  * function for any set to 1.  See https://www.freertos.org/a00016.html. */
-#define configUSE_IDLE_HOOK                   0
+#define configUSE_IDLE_HOOK                   1
 #define configUSE_TICK_HOOK                   0
 #define configUSE_MALLOC_FAILED_HOOK          0
 #define configUSE_DAEMON_TASK_STARTUP_HOOK    0

@@ -1,5 +1,6 @@
 #include "application.h"
 
+#include "FreeRTOS.h"
 #include "task.h"
 
 #define TASK1_STACK_SIZE_WORDS (128)
@@ -11,7 +12,10 @@ static void taskFunction1( void * pvParameters )
 {
 	(void) pvParameters;
 
-
+	for (;;)
+	{
+		vTaskDelay(pdMS_TO_TICKS(10));
+	}
 }
 
 static ApplicationTask_t applicationTasks[] = {
@@ -30,6 +34,4 @@ void ApplicationCreateTasks()
 				   applicationTasks[i].stackBuffer,
 				   applicationTasks[i].taskBuffer);
 	}
-
-
 }

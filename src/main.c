@@ -1,9 +1,12 @@
-#include "application.h"
-#include "utils.h"
+#include "stm32f4xx.h"
 
+#include "FreeRTOS.h"
 #include "task.h"
 
-#include "stm32f446xx.h"
+#include "application.h"
+#include "utils.h"
+#include "watchdog.h"
+
 
 RCC_TypeDef* rcc = RCC;
 
@@ -26,6 +29,8 @@ void SystemInit(void)
 	set_bits((uint32_t*)&rcc->CFGR, 24, 3, 0x6); //Set MC01 prescaler to /4
 	set_bits((uint32_t*)&rcc->CFGR, 27, 3, 0x6); //Set MC02 prescaler to /4
 	set_bits((uint32_t*)&rcc->CFGR, 4,  4, 0x8); //Set AHB prescaler to /2
+
+	watchdog_start();
 }
 
 int main(void)
@@ -35,4 +40,9 @@ int main(void)
 	vTaskStartScheduler();
 
 	for (;;);
+}
+
+void vApplicationIdleHook( void )
+{
+	watchdog_reload();
 }
