@@ -39,6 +39,7 @@ TARGET := STM32F446xx
 FPUFLAGS := -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 
 INCFLAGS := -I$(INCDIR) \
+	    -Icmsis/CMSIS/Core/Include \
 	    -Icmsis_f4/Include \
 	    -IFreeRTOS-Kernel/include
 
