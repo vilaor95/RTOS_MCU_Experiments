@@ -53,7 +53,7 @@
  * settings.  Your application will certainly need a different value so set this
  * correctly. This is very often, but not always, equal to the main system clock
  * frequency. */
-#define configCPU_CLOCK_HZ    ( ( unsigned long ) 180000000)
+#define configCPU_CLOCK_HZ    ( ( unsigned long ) 8000000)
 
 /* configSYSTICK_CLOCK_HZ is an optional parameter for ARM Cortex-M ports only.
  *
@@ -67,9 +67,7 @@
  * The default value is undefined (commented out).  If you need this value bring
  * it back and set it to a suitable value. */
 
-/*
- #define configSYSTICK_CLOCK_HZ                  [Platform specific]
- */
+ #define configSYSTICK_CLOCK_HZ                  ( ( unsigned long ) 1000000)
 
 /******************************************************************************/
 /* Scheduling behaviour related definitions. **********************************/
