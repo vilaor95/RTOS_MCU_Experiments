@@ -24,7 +24,7 @@ static inline void watchdog_reload(void)
 
 static inline void watchdog_start(void)
 {
-	IWDG->PR = WATCHDOG_PREESCALER_BY_8;
+	IWDG->PR = WATCHDOG_PREESCALER_BY_128;
 	IWDG->KR = WATCHDOG_START_VALUE;
 }
 

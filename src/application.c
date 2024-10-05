@@ -3,6 +3,8 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
+#include "gpio.h"
+
 #define TASK1_STACK_SIZE_WORDS (128)
 
 static uint32_t stackBufferTask1[TASK1_STACK_SIZE_WORDS];
@@ -14,7 +16,8 @@ static void taskFunction1( void * pvParameters )
 
 	for (;;)
 	{
-		vTaskDelay(pdMS_TO_TICKS(10));
+		gpio_toggle_pin(GPIOA, 5);
+		vTaskDelay(pdMS_TO_TICKS(1000));
 	}
 }
 
