@@ -123,10 +123,13 @@ tags:
 		FreeRTOS-Kernel/include \
 		-name "*.c" -o -name "*.h" > .cscope.files
 	find cmsis_f4/Include/stm32f4xx.h cmsis_f4/Include/stm32f446xx.h >> .cscope.files
+	find cmsis/CMSIS/Core/Include/core_cm4.h >> .cscope.files
 	cscope -q -R -b -i .cscope.files
 
 	ctags -f .tags \
-		--exclude= cmsis_f4/Include\
+		--exclude= cmsis_f4/Include \
 		--exclude-exception= cmsis_f4/Include/stm32f4xx.h \
 		--exclude-exception= cmsis_f4/Include/stm32f446xx.h \
+		--exclude= cmsis \
+		--exclude-exception= cmsis/CMSIS/Core/Include/core_cm4.h \
 		src/* headers/* FreeRTOS-Kernel/include/*
