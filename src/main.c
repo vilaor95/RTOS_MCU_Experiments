@@ -7,6 +7,12 @@
 #include "utils.h"
 #include "watchdog.h"
 
+// debug variables
+GPIO_TypeDef *gpioa = GPIOA;
+GPIO_TypeDef *gpioc = GPIOC;
+SYSCFG_TypeDef *syscfg = SYSCFG;
+RCC_TypeDef *rcc = RCC;
+EXTI_TypeDef *exti = EXTI;
 
 void SystemInit(void)
 {
