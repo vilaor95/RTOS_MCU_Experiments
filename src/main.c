@@ -26,7 +26,19 @@ void SystemInit(void)
 	set_bits((uint32_t*)&RCC->CFGR, 4,  4, 0x8); //Set AHB prescaler to /2
 	
 	set_bits((uint32_t*)&GPIOA->MODER, 10, 2, 0x1); // Set PA5 in output mode
-	set_bits((uint32_t*)&GPIOA->OSPEEDR, 10, 2, 0x3); // Set PA5 in output mode
+	set_bits((uint32_t*)&GPIOA->OSPEEDR, 10, 2, 0x3); // Set PA5 speed to high
+	
+	set_bits((uint32_t*)&GPIOC->MODER, 26, 2, 0x0); // Set PC13 in input mode
+	set_bits((uint32_t*)&GPIOC->OSPEEDR, 26, 2, 0x3); // Set PC13 speed high
+	set_bits((uint32_t*)&GPIOC->PUPDR, 26, 2, 0x1); // Set PC13 to pull up
+		
+	set_bit((uint32_t*)&RCC->APB2ENR, 14); // Set SYSCFG EN bit
+	set_bits((uint32_t*)&SYSCFG->EXTICR[3], 4, 4, 0x2); // Set EXTI13 to GPIOC pin
+	set_bit((uint32_t*)&EXTI->IMR, 13); // Set interrupt mask register
+	set_bit((uint32_t*)&EXTI->RTSR, 13); // Set rising trigger
+	clear_bit((uint32_t*)&EXTI->FTSR, 13); // Clear falling trigger
+	NVIC_SetPriority(EXTI15_10_IRQn, 15);
+	NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 	watchdog_start();
 }
@@ -43,4 +55,12 @@ int main(void)
 void vApplicationIdleHook( void )
 {
 	watchdog_reload();
+}
+
+void ButtonIRQHandler()
+{
+	if (EXTI->PR & (1<<13)) {
+		//send event to queue
+		EXTI->PR |= (1<<13);
+	}
 }

@@ -25,18 +25,57 @@ __Vectors:
                 .word    xPortSysTickHandler                /*  -1 SysTick Handler */
 
                 /* Interrupts */
-                .long    Interrupt0_Handler                 /*   0 Interrupt 0 */
-                .long    Interrupt1_Handler                 /*   1 Interrupt 1 */
-                .long    Interrupt2_Handler                 /*   2 Interrupt 2 */
-                .long    Interrupt3_Handler                 /*   3 Interrupt 3 */
-                .long    Interrupt4_Handler                 /*   4 Interrupt 4 */
-                .long    Interrupt5_Handler                 /*   5 Interrupt 5 */
-                .long    Interrupt6_Handler                 /*   6 Interrupt 6 */
-                .long    Interrupt7_Handler                 /*   7 Interrupt 7 */
-                .long    Interrupt8_Handler                 /*   8 Interrupt 8 */
-                .long    Interrupt9_Handler                 /*   9 Interrupt 9 */
+                .word    Default_Handler                 /*   0 Interrupt 0 */
+                .word    Default_Handler                 /*   1 Interrupt 1 */
+                .word    Default_Handler                 /*   2 Interrupt 2 */
+                .word    Default_Handler                 /*   3 Interrupt 3 */
+                .word    Default_Handler                 /*   4 Interrupt 4 */
+                .word    Default_Handler                 /*   5 Interrupt 5 */
+                .word    Default_Handler                 /*   6 Interrupt 6 */
+                .word    Default_Handler                 /*   7 Interrupt 7 */
+                .word    Default_Handler                 /*   8 Interrupt 8 */
+                .word    Default_Handler                 /*   9 Interrupt 9 */
+                .word    Default_Handler                 /*   10 Interrupt 10 */
+                .word    Default_Handler                 /*   11 Interrupt 11 */
+                .word    Default_Handler                 /*   12 Interrupt 12 */
+                .word    Default_Handler                 /*   13 Interrupt 13 */
+                .word    Default_Handler                 /*   14 Interrupt 14 */
+                .word    Default_Handler                 /*   15 Interrupt 15 */
+                .word    Default_Handler                 /*   16 Interrupt 16 */
+                .word    Default_Handler                 /*   17 Interrupt 17 */
+                .word    Default_Handler                 /*   18 Interrupt 18 */
+                .word    Default_Handler                 /*   19 Interrupt 19 */
+                .word    Default_Handler                 /*   20 Interrupt 20 */
+                .word    Default_Handler                 /*   21 Interrupt 21 */
+                .word    Default_Handler                 /*   22 Interrupt 22 */
+                .word    Default_Handler                 /*   23 Interrupt 23 */
+                .word    Default_Handler                 /*   24 Interrupt 24 */
+                .word    Default_Handler                 /*   25 Interrupt 25 */
+                .word    Default_Handler                 /*   26 Interrupt 26 */
+                .word    Default_Handler                 /*   27 Interrupt 27 */
+                .word    Default_Handler                 /*   28 Interrupt 28 */
+                .word    Default_Handler                 /*   29 Interrupt 29 */
+                .word    Default_Handler                 /*   30 Interrupt 30 */
+                .word    Default_Handler                 /*   31 Interrupt 31 */
+                .word    Default_Handler                 /*   32 Interrupt 32 */
+                .word    Default_Handler                 /*   33 Interrupt 33 */
+                .word    Default_Handler                 /*   34 Interrupt 34 */
+                .word    Default_Handler                 /*   35 Interrupt 35 */
+                .word    Default_Handler                 /*   36 Interrupt 36 */
+                .word    Default_Handler                 /*   37 Interrupt 37 */
+                .word    Default_Handler                 /*   38 Interrupt 38 */
+                .word    Default_Handler                 /*   39 Interrupt 39 */
+                .word    ButtonIRQHandler                /*   40 Interrupt 40 */
+                .word    Default_Handler                 /*   41 Interrupt 41 */
+                .word    Default_Handler                 /*   42 Interrupt 42 */
+                .word    Default_Handler                 /*   43 Interrupt 43 */
+                .word    Default_Handler                 /*   44 Interrupt 44 */
+                .word    Default_Handler                 /*   45 Interrupt 45 */
+                .word    Default_Handler                 /*   46 Interrupt 46 */
+                .word    Default_Handler                 /*   47 Interrupt 47 */
+                .word    Default_Handler                 /*   48 Interrupt 48 */
+                .word    Default_Handler                 /*   49 Interrupt 49 */
 
-                .space   (214 * 4)                          /* Interrupts 10 .. 224 are left out */
 __Vectors_End:
 		.equ	 __Vectors_Size, __Vectors_End - __Vectors
 		.size	 __Vectors, . - __Vectors
