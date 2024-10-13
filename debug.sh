@@ -2,7 +2,8 @@
 
 source ./project.sh
 
-./flash.sh && st-util -u &
+./flash.sh && st-util -u -m &
 
-${TOOLCHAIN_PREFIX}gdb out.elf -ex 'target extended-remote localhost:4242'
+bash -c "${TOOLCHAIN_PREFIX}gdb out.elf -ex 'target extended-remote localhost:4242'"
+
 killall st-util
