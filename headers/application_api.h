@@ -5,4 +5,7 @@
 
 // Public functions
 void Application_CreateTasks(void);
+
+void Application_SendMessageToLedTask(void);
+
 #endif /* APPLICATION_API_H */

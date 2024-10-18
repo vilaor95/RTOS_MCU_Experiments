@@ -6,6 +6,7 @@
 void ButtonIRQHandler()
 {
 	if (EXTI->PR & (1<<13)) {
+		Application_SendMessageToLedTask();
 		EXTI->PR |= (1<<13);
 	}
 }

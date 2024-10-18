@@ -3,33 +3,51 @@
 
 #include "FreeRTOS.h"
 #include "task.h"
+#include "queue.h"
 
 #include "gpio.h"
 
-#define TASK1_STACK_SIZE_WORDS (128)
+#define LED_TASK_STACK_SIZE_WORDS (128)
 
-static uint32_t stackBufferTask1[TASK1_STACK_SIZE_WORDS];
-static StaticTask_t bufferTask1;
+static uint32_t stackBufferLedTask[LED_TASK_STACK_SIZE_WORDS];
+static StaticTask_t bufferLedTask;
+static StaticQueue_t bufferLedQueue;
+static uint8_t ledQueueElements[4];
 
-static void taskFunction1( void * pvParameters )
+static ApplicationQueue_t applicationQueues[] = {
+	{&bufferLedQueue, 1, 4, ledQueueElements, NULL},
+};
+
+static void ledTaskFunction( void * pvParameters )
 {
 	(void) pvParameters;
 
 	for (;;)
 	{
-		gpio_toggle_pin(GPIOA, 5);
-		vTaskDelay(pdMS_TO_TICKS(1000));
+		uint32_t dummyBuffer;
+		if (xQueueReceive(applicationQueues[APPLICATION_TASK_LED].queueHandle, &dummyBuffer, portMAX_DELAY) == pdPASS)
+		{
+			gpio_toggle_pin(GPIOA, 5);
+			vTaskDelay(pdMS_TO_TICKS(1000));
+			gpio_toggle_pin(GPIOA, 5);
+		}
 	}
 }
 
 static ApplicationTask_t applicationTasks[] = {
-       /*  Function     Name     StackDepth              Parameteres Priority  StackBuffer       TaskBuffer */
-	{taskFunction1, "Task1", TASK1_STACK_SIZE_WORDS, (void*)1,          PRIO_LOW, stackBufferTask1, &bufferTask1},
+       /*  Function     Name   StackDepth              Parameteres        Priority  StackBuffer         TaskBuffer */
+	{ledTaskFunction, "LED", LED_TASK_STACK_SIZE_WORDS, (void*)1,          PRIO_LOW, stackBufferLedTask, &bufferLedTask},
 };
 
-void ApplicationCreateTasks()
+void Application_CreateTasks()
 {
-	for (unsigned int i = 0; i < sizeof(applicationTasks)/sizeof(applicationTasks[0]); i++) {
+	for (unsigned int i = APPLICATION_TASK_FIRST; i < APPLICATION_TASK_LAST; i++) {
+		applicationQueues[i].queueHandle = 
+			xQueueCreateStatic(applicationQueues[i].queueLength,
+				           applicationQueues[i].queueElementSize,
+				           applicationQueues[i].elementsQueue,
+				           applicationQueues[i].queueBuffer);
+
 		xTaskCreateStatic (applicationTasks[i].function,
 				   applicationTasks[i].name,
 				   applicationTasks[i].stackDepth,
@@ -38,4 +56,10 @@ void ApplicationCreateTasks()
 				   applicationTasks[i].stackBuffer,
 				   applicationTasks[i].taskBuffer);
 	}
+}
+
+void Application_SendMessageToLedTask()
+{
+	uint32_t dummyElement = 0xdeadbeef;
+	xQueueSendFromISR(applicationQueues[APPLICATION_TASK_LED].queueHandle, &dummyElement, NULL);
 }
