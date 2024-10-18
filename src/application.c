@@ -1,3 +1,4 @@
+#include "application_api.h"
 #include "application.h"
 
 #include "FreeRTOS.h"

@@ -2,8 +2,8 @@
 #define APPLICATION_H
 
 #include "FreeRTOS.h"
-
-void ApplicationCreateTasks(void);
+#include "task.h"
+#include "queue.h"
 
 typedef enum {
 	PRIO_IDLE = 0,
@@ -21,5 +21,19 @@ typedef struct {
 	StackType_t * const	stackBuffer;
 	StaticTask_t *const     taskBuffer;
 } ApplicationTask_t;
+
+typedef struct {
+	StaticQueue_t*	        queueBuffer;
+	size_t                  queueLength;
+	size_t                  queueElementSize;
+	uint8_t*		elementsQueue; 
+	QueueHandle_t		queueHandle;
+} ApplicationQueue_t;
+
+enum {
+	APPLICATION_TASK_FIRST = 0,
+	APPLICATION_TASK_LED = APPLICATION_TASK_FIRST,
+	APPLICATION_TASK_LAST
+};
 
 #endif /* APPLICATION_H */

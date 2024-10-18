@@ -3,7 +3,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-#include "application.h"
+#include "application_api.h"
 #include "utils.h"
 #include "watchdog.h"
 #include "interrupts.h"
